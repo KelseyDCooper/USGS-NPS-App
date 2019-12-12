@@ -1,0 +1,30 @@
+---
+title: "NPS Invasives"
+author: "Kelsey Cooper"
+date: "12/11/2019"
+output: html_document
+---
+```{r}
+yose <- read_xlsx("YOSE_table3.xlsx")
+lewi <- read_xlsx("LEWI_table3.xlsx")
+inv_list <- read.csv("https://raw.githubusercontent.com/KelseyDCooper/USGS-NPS-App/master/invasives_list.csv")
+```
+
+```{r}
+invasive <- ifelse(is.na(match(paste0(yose$Scientific_name), 
+                                        paste0(inv_list$Scientific.Name))),"No", "Yes")
+yose$invasive <- invasive
+invasive_findings <- yose[c("Scientific_name","invasive" )]
+invasive_findings <- invasive_findings[which(invasive_findings$invasive=="Yes"),]
+invasive_findings
+```
+
+```{r}
+invasive <- ifelse(is.na(match(paste0(lewi$Scientific.Name), 
+                                        paste0(inv_list$Scientific.Name))),"No", "Yes")
+lewi$invasive <- invasive
+invasive_findings <- lewi[c("Scientific.Name","invasive" )]
+invasive_findings <- invasive_findings[which(invasive_findings$invasive=="Yes"),]
+invasive_findings
+```
+
